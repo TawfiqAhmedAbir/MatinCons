@@ -998,10 +998,11 @@ img {
   }
 
   .site-nav__backdrop {
+    display: block;
     position: fixed;
     inset: var(--site-nav-height) 0 0;
     z-index: 18;
-    background: rgba(2, 12, 20, 0.42);
+    background: linear-gradient(180deg, rgba(4, 21, 43, 0.985), rgba(3, 14, 29, 0.995));
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -1010,19 +1011,23 @@ img {
 
   .site-nav__panel {
     position: fixed;
-    top: calc(var(--site-nav-height) + 12px);
-    left: 12px;
-    right: 12px;
+    top: var(--site-nav-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 19;
     display: grid;
     gap: 10px;
+    align-content: start;
     width: auto;
-    padding: 14px;
-    border: 1px solid rgba(243, 232, 211, 0.14);
-    border-radius: 22px;
-    background: linear-gradient(180deg, rgba(8, 25, 50, 0.96), rgba(5, 18, 38, 0.98));
-    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.28);
-    backdrop-filter: blur(18px);
+    height: calc(100dvh - var(--site-nav-height));
+    max-height: calc(100dvh - var(--site-nav-height));
+    padding: 18px 12px 24px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow-y: auto;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
