@@ -30,21 +30,23 @@ export function Hero() {
             className="hero__logo"
           />
         </div>
-        <h1 className="hero__headline">{homeContent.headline}</h1>
-        <div className="button-row hero__buttons">
-          <a
-            className="button button--primary"
-            href={homeContent.primaryCta.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={homeContent.primaryCta.ariaLabel}
-          >
-            <span className="button__label">{homeContent.primaryCta.label}</span>
-            <ExternalLinkIcon />
-          </a>
-          <Link className="button button--secondary" href={homeContent.secondaryCta.href}>
-            {homeContent.secondaryCta.label}
-          </Link>
+        <div className="hero__message-card">
+          <h1 className="hero__headline">{homeContent.headline}</h1>
+          <div className="button-row hero__buttons">
+            <a
+              className="button button--primary"
+              href={homeContent.primaryCta.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={homeContent.primaryCta.ariaLabel}
+            >
+              <span className="button__label">{homeContent.primaryCta.label}</span>
+              <ExternalLinkIcon />
+            </a>
+            <Link className="button button--secondary" href={homeContent.secondaryCta.href}>
+              {homeContent.secondaryCta.label}
+            </Link>
+          </div>
         </div>
       </div>
     </section>
