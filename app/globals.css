@@ -186,6 +186,9 @@ img {
 }
 
 .hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   min-height: calc(100dvh - var(--site-nav-height) - 1px);
   place-items: center;
   padding: calc(2rem + 17px) 0 3.5rem;
@@ -193,6 +196,8 @@ img {
 }
 
 .hero__content {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: 0;
   width: min(100%, 52rem);
@@ -1009,6 +1014,16 @@ img {
 
   .site-nav__toggle {
     display: inline-flex;
+    padding: 0.86rem 1.38rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+  }
+
+  .site-nav__toggle-label {
+    text-transform: uppercase;
+  }
+
+  .site-nav:not(.site-nav--open) .site-nav__toggle-icon {
+    display: none;
   }
 
   .site-nav__backdrop {
@@ -1108,6 +1123,30 @@ img {
     padding: calc(var(--site-nav-height) + 10px) 0 24px;
   }
 
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0 -18px;
+    z-index: 0;
+    background:
+      linear-gradient(180deg, rgba(2, 10, 22, 0.14), rgba(2, 10, 22, 0.2) 100%),
+      url("/images/background-seamless-2048.jpg") center top / 700px auto repeat;
+    opacity: 0.98;
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 78% 22%, rgba(255, 237, 202, 0.14), transparent 18%),
+      radial-gradient(circle at 88% 66%, rgba(255, 237, 202, 0.12), transparent 17%),
+      linear-gradient(180deg, rgba(4, 17, 36, 0.22), rgba(4, 17, 36, 0.08) 24%, rgba(4, 17, 36, 0.22));
+    pointer-events: none;
+  }
+
   .hero__content {
     display: flex;
     flex-direction: column;
@@ -1119,43 +1158,60 @@ img {
     align-self: flex-start;
     width: auto;
     margin: 0 0 1.75rem;
-    padding: 10px 10px 8px;
-    border: 1px solid rgba(243, 232, 211, 0.08);
+    padding: 0;
+    border: 0;
     border-radius: 18px;
-    background: linear-gradient(180deg, rgba(8, 25, 50, 0.9), rgba(6, 19, 38, 0.86));
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+    background: transparent;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
   }
 
   .hero__logo {
-    height: clamp(86px, 23vw, 102px);
+    height: clamp(94px, 23vw, 112px);
   }
 
   .hero__message-card {
+    position: relative;
     margin-top: auto;
-    padding: 18px 14px 14px;
+    padding: 20px 16px 16px;
     border: 1px solid rgba(243, 232, 211, 0.12);
-    border-radius: 24px;
+    border-radius: 26px;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0) 30%),
-      linear-gradient(180deg, rgba(10, 19, 34, 0.8), rgba(6, 14, 28, 0.92));
-    box-shadow: 0 24px 52px rgba(0, 0, 0, 0.28);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 28%),
+      linear-gradient(180deg, rgba(11, 22, 42, 0.86), rgba(6, 14, 28, 0.95));
+    box-shadow: 0 26px 56px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(18px);
   }
 
+  .hero__message-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(circle at 80% 64%, rgba(255, 255, 255, 0.08), transparent 22%),
+      radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.04), transparent 26%);
+    pointer-events: none;
+  }
+
   .hero__headline {
+    position: relative;
+    z-index: 1;
     max-width: none;
     margin: 0 0 1.4rem;
     padding: 0;
-    font-size: clamp(2.15rem, 11vw, 3.15rem);
+    font-size: clamp(1.98rem, 10vw, 2.74rem);
     font-weight: 700;
-    line-height: 1.08;
+    line-height: 1.06;
+    letter-spacing: -0.038em;
     text-align: left;
   }
 
   .hero__buttons {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 0.82rem;
     max-width: none;
     margin: 0;
     padding: 0;
@@ -1177,7 +1233,7 @@ img {
 
   .hero__buttons .button--secondary {
     border-color: rgba(249, 242, 230, 0.64);
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.015);
   }
 
   .about-page-shell {
