@@ -1204,6 +1204,7 @@ img {
     line-height: 1.06;
     letter-spacing: -0.038em;
     text-align: left;
+    text-wrap: balance;
   }
 
   .hero__buttons {
@@ -1222,9 +1223,13 @@ img {
     min-height: 48px;
     width: 100%;
     min-width: 0;
-    padding: 13px 18px;
-    font-size: 13px;
-    letter-spacing: 0.04em;
+    padding: 13px 16px;
+    font-size: 12px;
+    letter-spacing: 0.025em;
+  }
+
+  .hero__buttons .button__label {
+    white-space: nowrap;
   }
 
   .hero__buttons .button--primary {
@@ -1421,6 +1426,6 @@ img {
 
 @media (min-width: 360px) and (max-width: 540px) {
   .hero__buttons {
-    grid-template-columns: minmax(0, 1.14fr) minmax(0, 0.9fr);
+    grid-template-columns: minmax(0, 1.32fr) minmax(0, 0.92fr);
   }
 }
