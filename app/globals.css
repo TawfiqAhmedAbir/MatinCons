@@ -65,13 +65,52 @@ img {
   flex-wrap: wrap;
   gap: 0;
   width: 100%;
+  position: relative;
 }
 
-.site-nav__link + .site-nav__link {
-  margin-left: 20px;
+.site-nav__panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
 }
 
- .site-nav__link {
+.site-nav__toggle,
+.site-nav__backdrop {
+  display: none;
+}
+
+.site-nav__toggle {
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 46px;
+  padding: 0.78rem 1.05rem;
+  border: 1px solid rgba(9, 26, 51, 0.08);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(244, 233, 214, 0.96), rgba(230, 211, 181, 0.92));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.22) inset, 0 8px 24px rgba(0, 0, 0, 0.18);
+  color: #091a33;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.site-nav__toggle-icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+}
+
+.site-nav__toggle-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.site-nav__link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -890,7 +929,7 @@ img {
     --site-nav-height: 72px;
   }
 
-  .site-nav {
+  .site-nav__panel {
     gap: 0.75rem;
   }
 
@@ -926,5 +965,341 @@ img {
   .button {
     width: 100%;
     min-width: 0;
+  }
+}
+
+@media (max-width: 540px) {
+  :root {
+    --site-nav-height: 68px;
+  }
+
+  .shell,
+  .page-layout,
+  .contact-layout {
+    width: min(var(--site-max-width), calc(100vw - 24px));
+  }
+
+  .site-header {
+    background: rgba(4, 21, 43, 0.82);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+  }
+
+  .site-header__inner {
+    justify-content: flex-end;
+    padding: 0.55rem 0;
+  }
+
+  .site-nav {
+    justify-content: flex-end;
+  }
+
+  .site-nav__toggle {
+    display: inline-flex;
+  }
+
+  .site-nav__backdrop {
+    position: fixed;
+    inset: var(--site-nav-height) 0 0;
+    z-index: 18;
+    background: rgba(2, 12, 20, 0.42);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 180ms ease, visibility 180ms ease;
+  }
+
+  .site-nav__panel {
+    position: fixed;
+    top: calc(var(--site-nav-height) + 12px);
+    left: 12px;
+    right: 12px;
+    z-index: 19;
+    display: grid;
+    gap: 10px;
+    width: auto;
+    padding: 14px;
+    border: 1px solid rgba(243, 232, 211, 0.14);
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(8, 25, 50, 0.96), rgba(5, 18, 38, 0.98));
+    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(18px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px) scale(0.98);
+    transform-origin: top right;
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+  }
+
+  .site-nav--open .site-nav__backdrop,
+  .site-nav--open .site-nav__panel {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .site-nav--open .site-nav__panel {
+    transform: translateY(0) scale(1);
+  }
+
+  .site-nav__link,
+  .site-nav__link--active {
+    width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 0.92rem 1rem;
+    border-radius: 16px;
+    font-size: 0.88rem;
+    letter-spacing: 0.05em;
+    transform: none;
+  }
+
+  .site-nav__link:hover,
+  .site-nav__link--active {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.28) inset, 0 10px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .site-nav__icon,
+  .site-nav__link--active .site-nav__icon {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+  }
+
+  .site-nav__icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .site-nav__text,
+  .site-nav__link--active .site-nav__text {
+    display: inline;
+  }
+
+  .page-layout,
+  .contact-layout {
+    gap: 1.1rem;
+    padding-top: 1rem;
+  }
+
+  .hero {
+    min-height: calc(100dvh - var(--site-nav-height));
+    place-items: start center;
+    padding: 1rem 0 2.25rem;
+  }
+
+  .hero__content {
+    width: 100%;
+  }
+
+  .hero__logo-wrap {
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__logo {
+    height: clamp(92px, 26vw, 118px);
+  }
+
+  .hero__headline {
+    max-width: 20rem;
+    margin-bottom: 1.75rem;
+    padding: 0;
+    font-size: clamp(1.8rem, 8vw, 2.45rem);
+    line-height: 1.14;
+  }
+
+  .button-row {
+    gap: 0.85rem;
+    padding: 0;
+  }
+
+  .button {
+    min-height: 48px;
+    padding: 13px 18px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+
+  .about-page-shell {
+    margin-top: clamp(74px, 21vw, 108px);
+  }
+
+  .about-layout {
+    padding: 1.55rem 0.2rem 2rem;
+    row-gap: 1.25rem;
+  }
+
+  .about-copy-block {
+    transform: none;
+  }
+
+  .about-copy-block::before,
+  .about-panels::before,
+  .contact-layout__primary::before {
+    display: none;
+  }
+
+  .about-title {
+    max-width: none;
+    font-size: clamp(2.25rem, 13vw, 3.1rem);
+    line-height: 0.98;
+  }
+
+  .about-intro {
+    margin-top: 0.85rem;
+    font-size: 1rem;
+    line-height: 1.68;
+  }
+
+  .about-panels {
+    gap: 14px;
+  }
+
+  .panel-card {
+    padding: 1.12rem 1rem;
+    border-radius: 16px;
+  }
+
+  .panel-card__title {
+    margin-bottom: 0.65rem;
+    line-height: 1.45;
+  }
+
+  .detail-list {
+    gap: 0.52rem;
+  }
+
+  .detail-list li {
+    padding-left: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .about-footnote {
+    padding: 0.9rem 0.2rem 0;
+    font-size: 0.95rem;
+  }
+
+  .portfolio-page-shell {
+    padding-top: 1.25rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .portfolio-shell {
+    padding: 16px;
+    border-radius: 22px;
+  }
+
+  .portfolio-title {
+    margin-bottom: 0.9rem;
+    font-size: clamp(2.25rem, 12vw, 3rem);
+    line-height: 1.02;
+  }
+
+  .portfolio-grid {
+    gap: 12px;
+  }
+
+  .portfolio-card {
+    min-height: 0;
+    border-radius: 16px;
+  }
+
+  .portfolio-card__media {
+    min-height: 104px;
+  }
+
+  .portfolio-card__body {
+    gap: 0.45rem;
+    padding: 0.95rem;
+  }
+
+  .portfolio-card__title {
+    font-size: 1rem;
+  }
+
+  .portfolio-card__description {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .contact-page-shell {
+    margin-top: clamp(28px, 8vw, 48px);
+    padding: 18px 16px;
+    border-radius: 24px;
+  }
+
+  .contact-layout {
+    gap: 18px;
+    padding-top: 0;
+  }
+
+  .contact-layout__primary {
+    gap: 20px;
+    padding-inline: 0;
+  }
+
+  .contact-layout__primary > * {
+    width: 100%;
+  }
+
+  .contact-title {
+    gap: 2px;
+    font-size: clamp(3.2rem, 17vw, 4.4rem);
+    line-height: 0.88;
+  }
+
+  .contact-lead {
+    max-width: none;
+    font-size: 1.04rem;
+    line-height: 1.65;
+  }
+
+  .contact-actions {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .contact-actions .button {
+    width: 100%;
+    min-width: 0;
+    min-height: 54px;
+    padding: 15px 20px;
+    font-size: 0.94rem;
+  }
+
+  .contact-card {
+    gap: 0.85rem;
+    padding: 1rem;
+    border-radius: 18px;
+  }
+
+  .contact-card h2 {
+    font-size: 1.1rem;
+  }
+
+  .note-card {
+    padding: 0.8rem 0.9rem;
+  }
+
+  .note-card > span,
+  .contact-detail > span {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+
+  .contact-detail-group {
+    gap: 0.75rem;
+  }
+
+  .contact-detail {
+    padding: 0.9rem;
+    border-radius: 14px;
+  }
+
+  .contact-detail strong {
+    font-size: 0.94rem;
+    line-height: 1.5;
   }
 }

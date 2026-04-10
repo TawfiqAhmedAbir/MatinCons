@@ -3,8 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 import { primaryNavItems } from "@/content/site";
+
+const MOBILE_NAV_MEDIA_QUERY = "(max-width: 540px)";
 
 function navIconFor(href: string): ReactNode {
   if (href === "/") {
@@ -45,25 +48,90 @@ function navIconFor(href: string): ReactNode {
 
 export function SiteNav() {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      return;
+    }
+
+    const originalOverflow = document.body.style.overflow;
+    const mediaQuery = window.matchMedia(MOBILE_NAV_MEDIA_QUERY);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+      }
+    };
+
+    const handleMediaChange = (event: MediaQueryListEvent) => {
+      if (!event.matches) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
+    mediaQuery.addEventListener("change", handleMediaChange);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      mediaQuery.removeEventListener("change", handleMediaChange);
+    };
+  }, [isMenuOpen]);
 
   return (
-    <nav aria-label="Primary" className="site-nav">
-      {primaryNavItems.map((item) => {
-        const isActive = pathname === item.href;
+    <nav aria-label="Primary" className={`site-nav${isMenuOpen ? " site-nav--open" : ""}`}>
+      <button
+        type="button"
+        className="site-nav__toggle"
+        aria-expanded={isMenuOpen}
+        aria-controls="site-nav-menu"
+        aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+        onClick={() => setIsMenuOpen((open) => !open)}
+      >
+        <span className="site-nav__toggle-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            {isMenuOpen ? (
+              <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+            ) : (
+              <>
+                <path d="M4 7h16" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+                <path d="M4 12h16" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+                <path d="M4 17h16" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+              </>
+            )}
+          </svg>
+        </span>
+        <span className="site-nav__toggle-label">{isMenuOpen ? "Close" : "Menu"}</span>
+      </button>
+      <button
+        type="button"
+        className="site-nav__backdrop"
+        aria-hidden="true"
+        tabIndex={-1}
+        onClick={() => setIsMenuOpen(false)}
+      />
+      <div id="site-nav-menu" className="site-nav__panel">
+        {primaryNavItems.map((item) => {
+          const isActive = pathname === item.href;
 
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`site-nav__link${isActive ? " site-nav__link--active" : ""}`}
-            aria-current={isActive ? "page" : undefined}
-            aria-label={item.label}
-          >
-            <span className="site-nav__icon">{navIconFor(item.href)}</span>
-            <span className="site-nav__text">{item.label}</span>
-          </Link>
-        );
-      })}
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`site-nav__link${isActive ? " site-nav__link--active" : ""}`}
+              aria-current={isActive ? "page" : undefined}
+              aria-label={item.label}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className="site-nav__icon">{navIconFor(item.href)}</span>
+              <span className="site-nav__text">{item.label}</span>
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }
